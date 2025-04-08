@@ -1,6 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "../Components/Home";
 import Layout from "../Components/Layout";
+import Invoices from "../Components/Invoices";
+import Quotations from "../Components/Quotations";
+import Inventory from "../Components/Inventory";
+import Customers from "../Components/Customers";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -10,10 +14,10 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-      { path: "/customers", element: <Home /> },
-      { path: "/invoices", element: <Home /> },
-      { path: "/quotations", element: <Home /> },
-      { path: "/inventory", element: <Home /> },
+      { path: "/customers", element: <Customers /> },
+      { path: "/invoices", element: <Invoices /> },
+      { path: "/quotations", element: <Quotations /> },
+      { path: "/inventory", element: <Inventory /> },
     ],
   },
 ]);
