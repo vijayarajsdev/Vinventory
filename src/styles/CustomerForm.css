@@ -1,0 +1,37 @@
+.customer-form-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.customer-form-container {
+  display: grid;
+  grid-template-columns: 20vw 30vw;
+  grid-template-rows: 50px;
+  margin: 10px 50px;
+}
+.h3-style-label {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #2d3748;
+  font-family: "Manrope", sans-serif;
+}
+.styled-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #fff;
+  font-size: 16px;
+  color: #2d3748;
+  outline: none;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+.styled-input::placeholder {
+    color: #a0aec0; /* soft gray */
+  }
+  
+  .styled-input:focus {
+    border-color: #4299e1; /* soft blue */
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3); /* blue glow */
+  }

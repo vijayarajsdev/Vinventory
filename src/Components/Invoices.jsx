@@ -8,6 +8,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
+import "../styles/Invoices.css";
 import { useNavigate } from "react-router-dom";
 
 const Invoices = () => {
@@ -369,13 +370,7 @@ const Invoices = () => {
   return (
     <div>
       <h2>Invoices</h2>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "end",
-          alignItems: "center",
-          padding: "10px",
-        }}>
+      <div className="invoice-btn-wrapper">
         <Button
           variant="contained"
           color="primary"
@@ -389,14 +384,7 @@ const Invoices = () => {
         </Button>
       </div>
       {invoices?.length === 0 ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "80vh",
-          }}>
+        <div className="invoice-err-msg">
           <h3>No Invoices Found</h3>
           <p>Click on the button above to add an invoice.</p>
           <p>Or check your internet connection.</p>
@@ -404,33 +392,10 @@ const Invoices = () => {
       ) : isMobile ? (
         <div style={{ padding: "10px" }}>
           {invoices.map((invoice) => (
-            <div
-              key={invoice.id}
-              style={{
-                margin: "10px",
-                padding: "15px",
-                border: "1px solid #d1e7ff", // Light blue border
-                borderRadius: "8px", // Rounded corners
-                backgroundColor: "aliceblue", // Card background
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-              }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}>
-                <p style={{ margin: "5px 0", color: "#475569" }}>
-                  {invoice.customerName}
-                </p>
-                <p
-                  style={{
-                    margin: "5px 0",
-                    color: "#475569",
-                    fontWeight: "bold",
-                  }}>
-                  {invoice.totalAmount}
-                </p>
+            <div key={invoice.id} className="invoice-mbl-wrapper">
+              <div className="invoice-mbl-header">
+                <p className="invoice-mbl-general">{invoice.customerName}</p>
+                <p className="invoice-mbl-totalamt">{invoice.totalAmount}</p>
               </div>
               <div
                 style={{
@@ -438,22 +403,18 @@ const Invoices = () => {
                   alignItems: "center",
                   justifyContent: "start",
                 }}>
-                <p style={{ margin: "5px  0px", color: "#475569" }}>
-                  {invoice.date}
-                </p>
+                <p className="invoice-mbl-general">{invoice.date}</p>
                 <p style={{ margin: "5px 10px ", color: "#1e3a8a" }}>
                   {invoice.id}
                 </p>
               </div>
 
-              <p style={{ margin: "5px 0", color: "#475569" }}>
+              <p className="invoice-mbl-general">
                 Status:
                 <span
-                  style={{
-                    fontFamily: "manrope",
-                    color: invoice.status === "Paid" ? "#16a34a" : "#dc2626",
-                    fontWeight: "bold",
-                  }}>
+                  className={`status-label ${
+                    invoice.status === "Paid" ? "paid" : "unpaid"
+                  }`}>
                   {" "}
                   {invoice.status}
                 </span>
@@ -491,10 +452,9 @@ const Invoices = () => {
                   <TableCell>{invoice.customerName}</TableCell>
                   <TableCell>{invoice.totalAmount}</TableCell>
                   <TableCell
-                    style={{
-                      color: invoice.status === "Paid" ? "#16a34a" : "#dc2626", // Green for Paid, Red for Unpaid
-                      fontWeight: "bold",
-                    }}>
+                    className={`status-label ${
+                      invoice.status === "Paid" ? "paid" : "unpaid"
+                    }`}>
                     {invoice.status}
                   </TableCell>
                 </TableRow>

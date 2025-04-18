@@ -1,0 +1,56 @@
+.invoice-btn-wrapper {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 10px;
+}
+.invoice-err-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+.invoice-mbl-wrapper {
+  margin: 10px;
+  padding: 15px;
+  border: 1px dolid #d1e7ff;
+  border-radius: 8px;
+  background-color: aliceblue;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.invoice-mbl-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.invoice-mbl-general {
+  margin: 5px 0px;
+  color: #475569;
+}
+.invoice-mbl-totalamt {
+  margin: 5px 0px;
+  color: #475569;
+  font-weight: bold;
+}
+.invoice-mbl-id {
+  margin: 5px 10px;
+  color: #1e3a8a;
+}
+.status-label {
+    font-family: "Manrope", sans-serif;
+    font-weight: bold;
+  }
+  
+  .status-label.paid {
+    color: #16a34a; /* Green */
+  }
+  
+  .status-label.unpaid {
+    color: #dc2626; /* Red */
+  }
+  .invoice-view-btn{
+    font-size: 0.8rem;
+    padding:5px 10px;
+    margin-top: 10px;
+  }

@@ -1,0 +1,85 @@
+.newinvoice-layout {
+  max-height: 100vh;
+  padding: 2rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.buyer-info-grid {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.invoice-info-grid {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.input-field {
+  margin: 5px;
+  padding: 8px;
+  width: 300px;
+  height: auto;
+}
+
+.select-field {
+  margin: 5px;
+  padding: 8px;
+  width: 300px;
+}
+.description {
+  width: 300px;
+}
+.hsn,
+.qty,
+.unit,
+.rate {
+  width: 100px;
+}
+.price,
+.total {
+  width: 150px;
+}
+
+.items-header,
+.items-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+.items-header {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-left: 100px;
+}
+
+.actions {
+  margin-top: 1rem;
+}
+
+.action-btn {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: red;
+}
+
+.modal-box {
+  width: 90%;
+  height: 90%;
+  margin: 2rem auto;
+  background-color: white;
+  overflow: auto;
+  padding: 1rem;
+}
