@@ -166,11 +166,11 @@ const PdfLayout = ({ data }) => {
                 }}
                 key={i}>
                 <p>{i + 1}</p>
-                <p>{item.name}</p>
+                <p>{item.description}</p>
                 <p>{item.hsn}</p>
                 <p>{item.quantity}</p>
-                <p>₹{item.rate}</p>
-                <p>₹{item.amount}</p>
+                <p>₹{item.price}</p>
+                <p>₹{item.price*item.quantity}</p>
                 <p>₹{item.cgst}</p>
                 <p>₹{item.sgst}</p>
                 <p>₹{item.total}</p>
