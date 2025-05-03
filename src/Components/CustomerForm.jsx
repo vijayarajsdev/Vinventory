@@ -78,6 +78,15 @@ const CustomerForm = () => {
             placeholder="Enter Phone Number"
           />
         </div>
+        <div className="customer-form-container">
+          {" "}
+          <h3 className="h3-style-label">GSTIN</h3>
+          <input
+            className="styled-input"
+            type="text"
+            placeholder="Enter GSTIN"
+          />
+        </div>
       </div>
     </div>
   );

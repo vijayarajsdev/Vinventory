@@ -1,202 +1,245 @@
 import React from "react";
-import { Box, Typography, Divider, Button } from "@mui/material";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
+import { Button } from "@mui/material";
+import logo from "../assets/base_icon_white_background.png";
+// Optional font
+Font.register({
+  family: "Roboto",
+  fonts: [
+    { src: "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxP.ttf" },
+  ],
+});
 
-const Pdflayout = ({
-  sellerInfo,
-  buyerInfo,
-  invoiceMeta,
-  lineItems,
-  closePreview,
-}) => {
-  const totalTaxable = lineItems.reduce(
-    (sum, item) =>
-      sum + (parseFloat(item.quantity) * parseFloat(item.price) || 0),
-    0
-  );
+const styles = StyleSheet.create({
+  page: {
+    fontFamily: "Roboto",
+    fontSize: 10,
+    padding: 20,
+    lineHeight: 1.5,
+    color: "#000",
+    border: "1px solid #000",
+    margin: 0,
+    height: "auto",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    boxSizing: "border-box",
+  },
+});
 
-  const gstType = invoiceMeta.gstType;
-  const gstSummary = lineItems.map((item) => {
-    const qty = parseFloat(item.quantity) || 0;
-    const price = parseFloat(item.price) || 0;
-    const gstRate = parseFloat(item.gstRate) || 0;
-    const taxable = qty * price;
-    const gstAmount = (taxable * gstRate) / 100;
-    return {
-      hsn: item.hsn,
-      taxable: taxable,
-      gstRate: gstRate,
-      cgst: gstType === "State" ? gstAmount / 2 : 0,
-      sgst: gstType === "State" ? gstAmount / 2 : 0,
-      igst: gstType === "Central" ? gstAmount : 0,
-    };
-  });
-
-  const totalAmount = lineItems.reduce(
-    (sum, item) => sum + parseFloat(item.total || 0),
-    0
-  );
-
-  const amountInWords = (num) => {
-    // Simplified version, can use num-to-words package
-    return `Rupees ${Math.round(num)} only`;
+const PdfLayout = ({ data }) => {
+  const {
+    seller,
+    buyer,
+    invoiceNumber,
+    date,
+    dueDate,
+    placeOfSupply,
+    terms,
+    items,
+    cgst,
+    sgst,
+    total,
+    totalInWords,
+    bankDetails,
+    notes,
+    isPaid,
+  } = data;
+  const downloadinvoice = () => {
+    window.print();
   };
-
   return (
-    <Box p={4} fontFamily="Arial">
-      <Typography variant="h6" align="center">
-        Tax Invoice
-      </Typography>
-      <Button
-        id="download-button"
-        className="download-button"
-        onClick={() => {
-          document.getElementById("download-button").style.display = "none";
-          window.print();
-        }}>
-        DOWNLOAD
-      </Button>
-      {/* Seller and Invoice Meta */}
-      <Box display="flex" justifyContent="space-between" mt={2}>
-        <Box>
-          <Typography fontWeight="bold">{sellerInfo.name}</Typography>
-          <Typography>{sellerInfo.address}</Typography>
-          <Typography>Phone: {sellerInfo.phone}</Typography>
-          <Typography>Email: {sellerInfo.email}</Typography>
-          <Typography>GSTIN: {sellerInfo.gstin}</Typography>
-          <Typography>State: {sellerInfo.state}</Typography>
-        </Box>
-        <Box>
-          <Typography>Invoice No: {invoiceMeta.invoiceNo}</Typography>
-          <Typography>Date: {invoiceMeta.invoiceDate}</Typography>
-          <Typography>Place of supply: {invoiceMeta.placeOfSupply}</Typography>
-        </Box>
-      </Box>
+    <>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button  onClick={downloadinvoice}>Download</Button>
+      </div>
 
-      {/* Buyer Info */}
-      <Box mt={3}>
-        <Typography fontWeight="bold">Bill To</Typography>
-        <Typography>{buyerInfo.name}</Typography>
-        <Typography>{buyerInfo.address}</Typography>
-        <Typography>Contact: {buyerInfo.contact}</Typography>
-        <Typography>GSTIN: {buyerInfo.gstin}</Typography>
-        <Typography>State: {buyerInfo.state}</Typography>
-      </Box>
-
-      {/* Items Table */}
-      <Box mt={3}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>ITEM</th>
-              <th>HSN</th>
-              <th>Qty</th>
-              <th>Unit</th>
-              <th>Price</th>
-              <th>Taxable</th>
-              <th>GST</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lineItems.map((item, idx) => {
-              const qty = parseFloat(item.quantity) || 0;
-              const price = parseFloat(item.price) || 0;
-              const taxable = qty * price;
-              const gstRate = parseFloat(item.gstRate) || 0;
-              const gstAmount = (taxable * gstRate) / 100;
-              return (
-                <tr
-                  key={idx}
-                  style={{ textAlign: "center", borderTop: "1px solid #ccc" }}>
-                  <td>{idx + 1}</td>
-                  <td>{item.description}</td>
-                  <td>{item.hsn}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.unit}</td>
-                  <td>₹ {price.toFixed(2)}</td>
-                  <td>₹ {taxable.toFixed(2)}</td>
-                  <td>
-                    ₹ {gstAmount.toFixed(2)} ({gstRate}%)
-                  </td>
-                  <td>₹ {item.total}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </Box>
-
-      {/* Totals */}
-      <Box mt={3}>
-        <Typography fontWeight="bold">Invoice Amount In Words:</Typography>
-        <Typography>{amountInWords(totalAmount)}</Typography>
-
-        <Box mt={2} display="flex" justifyContent="flex-end">
-          <Box textAlign="right">
-            <Typography>Sub Total: ₹ {totalTaxable.toFixed(2)}</Typography>
-            <Typography fontWeight="bold">
-              Total: ₹ {totalAmount.toFixed(2)}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-
-      {/* GST Summary Table */}
-      <Box mt={3}>
-        <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            textAlign: "center",
-          }}>
-          <thead>
-            <tr>
-              <th>HSN</th>
-              <th>Taxable</th>
-              {gstType === "State" ? (
-                <>
-                  <th>CGST</th>
-                  <th>SGST</th>
-                </>
-              ) : (
-                <th>IGST</th>
-              )}
-              <th>Total GST</th>
-            </tr>
-          </thead>
-          <tbody>
-            {gstSummary.map((item, idx) => (
-              <tr key={idx}>
-                <td>{item.hsn}</td>
-                <td>₹ {item.taxable.toFixed(2)}</td>
-                {gstType === "State" ? (
-                  <>
-                    <td>₹ {item.cgst.toFixed(2)}</td>
-                    <td>₹ {item.sgst.toFixed(2)}</td>
-                  </>
-                ) : (
-                  <td>₹ {item.igst.toFixed(2)}</td>
-                )}
-                <td>₹ {(item.cgst + item.sgst + item.igst).toFixed(2)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Box>
-
-      {/* Terms and Signature */}
-      <Box mt={5}>
-        <Typography fontWeight="bold">Terms and Conditions:</Typography>
-        <Typography>Thanks for doing business with us!</Typography>
-
-        <Box mt={4} textAlign="right">
-          <Typography>For: {sellerInfo.name}</Typography>
-          <Typography mt={2}>Authorised Signature</Typography>
-        </Box>
-      </Box>
-    </Box>
+      <div>
+        <div style={styles.page}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "10% 50% 40%",
+              alignItems: "start",
+            }}>
+            <div>
+              <img src={logo} style={{ width: "100px", height: "100px" }} />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                marginLeft: 50,
+              }}>
+              <p style={{ fontWeight: "bold" }}>{data?.seller?.name}</p>
+              <p>{data?.seller?.address}</p>
+              <p>{data?.seller?.gstin}</p>
+              <p>{data?.seller?.phone}</p>
+              <p>{data?.seller?.email}</p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "flex-end",
+              }}>
+              <p>TAX INVOICE</p>
+              <p>Invoice-001</p>
+            </div>
+          </div>
+          <div
+            style={{
+              borderBottom: "1px solid black", // Horizontal line
+              width: "calc(100%-40px)", // Full width of the page
+              margin: "0 auto", // Remove any margin
+              padding: 0, // Remove any padding
+            }}
+          />
+          <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+                <p>Invoice Date </p>
+                <p>: {data?.date}</p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+                <p>Terms </p>
+                <p>: {data?.terms}</p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+                <p>Due Date </p>
+                <p>: {data?.dueDate}</p>
+              </div>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+              <p>Place of Supply </p>
+              <p>: {data?.placeOfSupply}</p>
+            </div>
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <p style={{ fontSize: 12, fontWeight: "bold" }}>Bill To:</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <p>{data?.buyer?.name}</p>
+              <p>{data?.buyer?.address}</p>
+              <p>{data?.buyer?.gstin}</p>
+            </div>
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <p style={{ fontSize: 12, fontWeight: "bold" }}>
+              Item Details:
+            </p>
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "5% 30% 10% 5% 10% 5% 5% 10% 10%",
+              marginTop: 5,
+            }}>
+            <p style={{ fontWeight: "bold" }}>S.NO</p>
+            <p style={{ fontWeight: "bold" }}>ITEM</p>
+            <p style={{ fontWeight: "bold" }}>HSN/SAC</p>
+            <p style={{ fontWeight: "bold" }}>Qty</p>
+            <p style={{ fontWeight: "bold" }}>Rate</p>
+            <p style={{ fontWeight: "bold" }}>Amt</p>
+            <p style={{ fontWeight: "bold" }}>CGST</p>
+            <p style={{ fontWeight: "bold" }}>SGST</p>
+            <p style={{ fontWeight: "bold" }}>Amount</p>
+          </div>
+          {items.map((item, i) => (
+            <div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "5% 30% 10% 5% 10% 5% 5% 10% 10%",
+                  marginTop: 5,
+                }}
+                key={i}>
+                <p>{i + 1}</p>
+                <p>{item.name}</p>
+                <p>{item.hsn}</p>
+                <p>{item.quantity}</p>
+                <p>₹{item.rate}</p>
+                <p>₹{item.amount}</p>
+                <p>₹{item.cgst}</p>
+                <p>₹{item.sgst}</p>
+                <p>₹{item.total}</p>
+              </div>
+            </div>
+          ))}
+          <div style={{ marginTop: 50 }}>
+            <p style={{ fontSize: 12, fontWeight: "bold" }}>
+              Total in Words:
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <p>{data?.totalInWords}</p>
+              <p style={{ fontSize: 12, fontWeight: "bold", marginTop: 10 }}>
+                Bank Details:
+              </p>
+              <p>{data?.bankDetails?.accountName}</p>
+              <p>{data?.bankDetails?.bankName}</p>
+              <p>{data?.bankDetails?.branch}</p>
+              <p>{data?.bankDetails?.accountNumber}</p>
+              <p>{data?.bankDetails?.ifsc}</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <p style={{ fontSize: 12, fontWeight: "bold" }}>
+                Amount Summary:
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+                <p>Sub Total</p>
+                <p>: ₹{total - cgst - sgst}</p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+                <p>CGST (9%)</p>
+                <p>: ₹{cgst}</p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+                <p>SGST (9%)</p>
+                <p>: ₹{sgst}</p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
+                <p>Total</p>
+                <p>: ₹{total}</p>
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: 10 }}>
+            <p style={{ fontSize: 12, fontWeight: "bold" }}>Notes:</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <p>{data?.notes}</p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              marginTop: 10,
+            }}>
+            <p style={{ fontSize: 12, fontWeight: "bold" }}>
+              Authorized Signature:
+            </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <p>{data?.signature}</p>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
-export default Pdflayout;
+export default PdfLayout;

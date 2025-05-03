@@ -34,7 +34,7 @@
 .qty,
 .unit,
 .rate {
-  width: 100px;
+  width: 80px;
 }
 .price,
 .total {
@@ -76,10 +76,94 @@
 }
 
 .modal-box {
-  width: 90%;
+  width: 60%;
   height: 90%;
-  margin: 2rem auto;
+  margin: auto;
   background-color: white;
-  overflow: auto;
+  overflow-y: scroll;
   padding: 1rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.modal-box::-webkit-scrollbar {
+  display: none;
+}
+@media print {
+  .modal-box {
+    width: 90%;
+    height: 100%;
+    margin: auto;
+    padding: 1rem;
+    overflow-y: visible;
+  }
+  .modal-box::-webkit-scrollbar {
+    display: none;
+  }
+}
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.items-table th,
+.items-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.items-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.items-table input,
+.items-table select {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.items-table .remove-btn {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.actions {
+  margin-top: 1rem;
+  text-align: right;
+}
+
+.action-btn {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background-color: #155a9c;
+}
+.quantity-field,
+.unit-field {
+  width: 50px;
+}
+.rate-field,
+.hsn-field {
+  width: 7px;
+}
+.price-field {
+  width: 120px;
+}
+.total-field {
+  width: 150px;
+}
+.action-field {
+  width: 10px;
 }
