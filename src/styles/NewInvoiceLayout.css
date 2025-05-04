@@ -88,9 +88,13 @@
 .modal-box::-webkit-scrollbar {
   display: none;
 }
+.download-button {
+  display: none;
+}
 @media print {
   .modal-box {
     width: 90%;
+    min-height: 1123px;
     height: 100%;
     margin: auto;
     padding: 1rem;

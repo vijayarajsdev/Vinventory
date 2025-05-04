@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Document,
   Page,
@@ -53,13 +53,17 @@ const PdfLayout = ({ data }) => {
     notes,
     isPaid,
   } = data;
+  const [isActive,setIsActive]=useState(true);
   const downloadinvoice = () => {
+    setIsActive(false);
     window.print();
   };
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button  onClick={downloadinvoice}>Download</Button>
+        <Button className={isActive?""?"download-button"} onClick={downloadinvoice}>
+          Download
+        </Button>
       </div>
 
       <div>
@@ -136,9 +140,7 @@ const PdfLayout = ({ data }) => {
             </div>
           </div>
           <div style={{ marginTop: 10 }}>
-            <p style={{ fontSize: 12, fontWeight: "bold" }}>
-              Item Details:
-            </p>
+            <p style={{ fontSize: 12, fontWeight: "bold" }}>Item Details:</p>
           </div>
           <div
             style={{
@@ -170,7 +172,7 @@ const PdfLayout = ({ data }) => {
                 <p>{item.hsn}</p>
                 <p>{item.quantity}</p>
                 <p>₹{item.price}</p>
-                <p>₹{item.price*item.quantity}</p>
+                <p>₹{item.price * item.quantity}</p>
                 <p>₹{item.cgst}</p>
                 <p>₹{item.sgst}</p>
                 <p>₹{item.total}</p>
@@ -178,9 +180,7 @@ const PdfLayout = ({ data }) => {
             </div>
           ))}
           <div style={{ marginTop: 50 }}>
-            <p style={{ fontSize: 12, fontWeight: "bold" }}>
-              Total in Words:
-            </p>
+            <p style={{ fontSize: 12, fontWeight: "bold" }}>Total in Words:</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "50% 50%" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
