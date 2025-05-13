@@ -53,7 +53,7 @@ const PdfLayout = ({ data }) => {
     notes,
     isPaid,
   } = data;
-  const [isActive,setIsActive]=useState(true);
+  const [isActive, setIsActive] = useState(true);
   const downloadinvoice = () => {
     setIsActive(false);
     window.print();
@@ -61,7 +61,9 @@ const PdfLayout = ({ data }) => {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button className={isActive?"":"download-button"} onClick={downloadinvoice}>
+        <Button
+          className={isActive ? "" : "download-button"}
+          onClick={downloadinvoice}>
           Download
         </Button>
       </div>
