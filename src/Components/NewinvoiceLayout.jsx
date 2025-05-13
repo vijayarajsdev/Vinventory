@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { Modal } from "@mui/material";
-import { Box } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Modal, Box } from "@mui/material";
 import Pdflayout from "./Pdflayout";
 import "../styles/NewInvoiceLayout.css";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { getService, postService } from "../services/apiservice"; // Import postService for POST requests
+
 const NewinvoiceLayout = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [lineItems, setLineItems] = useState([
     {
+      productId: "",
       description: "",
       hsn: "",
       quantity: "",
@@ -20,259 +21,16 @@ const NewinvoiceLayout = () => {
       total: "",
     },
   ]);
-
-  const [sellerInfo, setSellerInfo] = useState({
-    name: "",
-    address: "",
-    phone: "",
-    email: "",
-    gstin: "",
-    state: "",
-  });
-  const invoicedummy = {
-    seller: {
-      name: "SVN METALS",
-      address: "Chennai, Tamil Nadu",
-      gstin: "33XXXXXXXZ1Z5",
-      email: "svmetals@email.com",
-      phone: "1234567809",
-    },
-    buyer: {
-      name: "Client Name",
-      address: "Coimbatore, TN",
-      gstin: "33YYYYYYYX1Z2",
-    },
-    invoiceNumber: "25-26/000001",
-    date: "02/04/2025",
-    dueDate: "17/04/2025",
-    terms: "Net 15",
-    placeOfSupply: "Tamil Nadu (33)",
-    items: lineItems,
-    // items:
-    //  [
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    //   {
-    //     name: "HYDRAULIC HOSE WITH END FITTINGS",
-    //     hsn: "40091200",
-    //     quantity: 2,
-    //     rate: 3150,
-    //     amount: 6300,
-    //     cgst: 567,
-    //     sgst: 567,
-    //     total: 7434,
-    //   },
-    // ],
-    cgst: 567,
-    sgst: 567,
-    total: 7434,
-    totalInWords: "Indian Rupees Seven Thousand Four Hundred Thirty-Four Only",
-    bankDetails: {
-      accountName: "SVN METALS",
-      bankName: "SBI",
-      branch: "Chennai Branch",
-      accountNumber: "XXXXXXX123",
-      ifsc: "SBIN0000123",
-    },
-    notes: "Thanks for your business.",
-    isPaid: true,
-  };
+  const [customers, setCustomers] = useState([]);
+  const [inventoryItems, setInventoryItems] = useState([]);
   const [buyerInfo, setBuyerInfo] = useState({
+    customerId: "",
     name: "",
     address: "",
     contact: "",
     gstin: "",
     state: "",
   });
-
   const [invoiceMeta, setInvoiceMeta] = useState({
     invoiceNo: "",
     invoiceDate: "",
@@ -280,30 +38,57 @@ const NewinvoiceLayout = () => {
     gstType: "State", // or "Central"
   });
 
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const response = await getService("/customers");
+        setCustomers(response.data);
+      } catch (error) {
+        console.error("Error fetching customers:", error);
+      }
+    };
+
+    const fetchInventoryItems = async () => {
+      try {
+        const response = await getService("/inventory");
+        setInventoryItems(response.data);
+      } catch (error) {
+        console.error("Error fetching inventory items:", error);
+      }
+    };
+
+    fetchCustomers();
+    fetchInventoryItems();
+  }, []);
+
   const handleAddItem = () => {
-    if (lineItems.length <= 10) {
-      setLineItems([
-        ...lineItems,
-        {
-          description: "",
-          hsn: "",
-          quantity: "",
-          unit: "Pcs",
-          price: "",
-          gstRate: "",
-          total: "",
-        },
-      ]);
-    } else {
-      alert(
-        "Sorry,You can add only 20 items.Save and create new invoice for remaining items"
-      );
-    }
+    setLineItems([
+      ...lineItems,
+      {
+        productId: "",
+        description: "",
+        hsn: "",
+        quantity: "",
+        unit: "Pcs",
+        price: "",
+        gstRate: "",
+        total: "",
+      },
+    ]);
   };
 
   const handleItemChange = (index, field, value) => {
     const updatedItems = [...lineItems];
     updatedItems[index][field] = value;
+
+    if (field === "productId") {
+      const selectedProduct = inventoryItems.find((item) => item._id === value);
+      if (selectedProduct) {
+        updatedItems[index].description = selectedProduct.name;
+        updatedItems[index].price = selectedProduct.price;
+        updatedItems[index].hsn = selectedProduct.hsn || "";
+      }
+    }
 
     if (["quantity", "price", "gstRate"].includes(field)) {
       const qty = parseFloat(updatedItems[index].quantity) || 0;
@@ -329,6 +114,24 @@ const NewinvoiceLayout = () => {
     setLineItems(updatedItems);
   };
 
+  const handleSaveInvoice = async () => {
+    const invoiceData = {
+      customerId: buyerInfo.customerId,
+      buyerInfo,
+      products:lineItems,
+      invoiceMeta,
+    };
+
+    try {
+      const response = await postService("/invoices/create", invoiceData);
+      alert("Invoice saved successfully!");
+      console.log("Saved Invoice:", response.data);
+    } catch (error) {
+      console.error("Error saving invoice:", error);
+      alert("Failed to save the invoice. Please try again.");
+    }
+  };
+
   return (
     <div className="newinvoice-layout">
       <div className="sticky-header">
@@ -338,17 +141,29 @@ const NewinvoiceLayout = () => {
       <div className="buyer-info">
         <h3>Buyer Information</h3>
         <div className="buyer-info-grid">
-          {["name", "address", "contact", "gstin", "state"].map((field) => (
-            <input
-              className={"input-field"}
-              key={field}
-              placeholder={field.toUpperCase()}
-              value={buyerInfo[field]}
-              onChange={(e) =>
-                setBuyerInfo({ ...buyerInfo, [field]: e.target.value })
-              }
-            />
-          ))}
+          <select
+            className="input-field"
+            value={buyerInfo.customerId}
+            onChange={(e) => {
+              const selectedCustomer = customers.find(
+                (customer) => customer._id === e.target.value
+              );
+              setBuyerInfo({
+                customerId: e.target.value,
+                name: selectedCustomer?.name || "",
+                address: selectedCustomer?.address || "",
+                contact: selectedCustomer?.phone || "",
+                gstin: selectedCustomer?.gst || "",
+                state: selectedCustomer?.state || "",
+              });
+            }}>
+            <option value="">Select Customer</option>
+            {customers.map((customer) => (
+              <option key={customer._id} value={customer._id}>
+                {customer.name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -362,7 +177,7 @@ const NewinvoiceLayout = () => {
             onChange={(e) =>
               setInvoiceMeta({ ...invoiceMeta, invoiceNo: e.target.value })
             }
-            className="input-field "
+            className="input-field"
           />
           <input
             type="date"
@@ -370,13 +185,16 @@ const NewinvoiceLayout = () => {
             onChange={(e) =>
               setInvoiceMeta({ ...invoiceMeta, invoiceDate: e.target.value })
             }
-            className="input-field "
+            className="input-field"
           />
           <input
             placeholder="Place of Supply"
             value={invoiceMeta.placeOfSupply}
             onChange={(e) =>
-              setInvoiceMeta({ ...invoiceMeta, placeOfSupply: e.target.value })
+              setInvoiceMeta({
+                ...invoiceMeta,
+                placeOfSupply: e.target.value,
+              })
             }
             className="input-field"
           />
@@ -396,6 +214,7 @@ const NewinvoiceLayout = () => {
       <table className="items-table">
         <thead>
           <tr>
+            <th>Product</th>
             <th>Description</th>
             <th>HSN</th>
             <th>Qty</th>
@@ -418,12 +237,25 @@ const NewinvoiceLayout = () => {
           {lineItems.map((item, index) => (
             <tr key={index}>
               <td>
+                <select
+                  value={item.productId}
+                  onChange={(e) =>
+                    handleItemChange(index, "productId", e.target.value)
+                  }
+                  className="select-field">
+                  <option value="">Select Product</option>
+                  {inventoryItems.map((product) => (
+                    <option key={product._id} value={product._id}>
+                      {product.name}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td>
                 <input
                   placeholder="Description"
                   value={item.description}
-                  onChange={(e) =>
-                    handleItemChange(index, "description", e.target.value)
-                  }
+                  readOnly
                   className="input-field"
                 />
               </td>
@@ -431,9 +263,7 @@ const NewinvoiceLayout = () => {
                 <input
                   placeholder="HSN"
                   value={item.hsn}
-                  onChange={(e) =>
-                    handleItemChange(index, "hsn", e.target.value)
-                  }
+                  readOnly
                   className="input-field"
                 />
               </td>
@@ -462,9 +292,7 @@ const NewinvoiceLayout = () => {
                   type="number"
                   placeholder="Price"
                   value={item.price}
-                  onChange={(e) =>
-                    handleItemChange(index, "price", e.target.value)
-                  }
+                  readOnly
                   className="input-field"
                 />
               </td>
@@ -519,12 +347,15 @@ const NewinvoiceLayout = () => {
         <button onClick={() => setShowPreview(true)} className="action-btn">
           👁️ Preview Invoice
         </button>
+        <button onClick={handleSaveInvoice} className="action-btn">
+          💾 Save Invoice
+        </button>
       </div>
 
       {/* Preview Modal */}
       <Modal open={showPreview} onClose={() => setShowPreview(false)}>
         <Box className="modal-box">
-          <Pdflayout data={invoicedummy} />
+          <Pdflayout data={{ buyerInfo, lineItems, invoiceMeta }} />
         </Box>
       </Modal>
     </div>

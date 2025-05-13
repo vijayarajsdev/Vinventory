@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Table,
@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import "../styles/Invoices.css"; // Reusing the same styles for consistency
+import { CustomerService } from "../services/CustomerService";
 
 const Customers = () => {
   const navigate = useNavigate();
@@ -37,7 +38,17 @@ const Customers = () => {
       address: "Hyderabad, India",
     },
   ]);
-
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const customerdata = await CustomerService();
+        setCustomers(customerdata.data);
+      } catch (error) {
+        console.error("Error fetching customer data:", error);
+      }
+    };
+    fetchCustomers();
+  }, []);
   return (
     <div>
       <h2>Customers</h2>
@@ -86,9 +97,9 @@ const Customers = () => {
             <TableBody>
               {customers.map((customer) => (
                 <TableRow key={customer.id}>
-                  <TableCell>{customer.id}</TableCell>
+                  <TableCell>{customer._id}</TableCell>
                   <TableCell>{customer.name}</TableCell>
-                  <TableCell>{customer.contact}</TableCell>
+                  <TableCell>{customer.phone}</TableCell>
                   <TableCell>{customer.email}</TableCell>
                   <TableCell>{customer.address}</TableCell>
                 </TableRow>
