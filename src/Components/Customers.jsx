@@ -97,7 +97,7 @@ const Customers = () => {
             <TableBody>
               {customers.map((customer) => (
                 <TableRow key={customer.id}>
-                  <TableCell>{customer._id}</TableCell>
+                  <TableCell>{customer.customerId}</TableCell>
                   <TableCell>{customer.name}</TableCell>
                   <TableCell>{customer.phone}</TableCell>
                   <TableCell>{customer.email}</TableCell>

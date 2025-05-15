@@ -56,9 +56,21 @@ const NewinvoiceLayout = () => {
         console.error("Error fetching inventory items:", error);
       }
     };
+    const lastInvoiceNumber = async () => {
+      try {
+        const response = await getService("/invoices/lastInvoiceNumber");
+        setInvoiceMeta((prev) => ({
+          ...prev,
+          invoiceNo: response.data.invoiceNumber + 1,
+        }));
+      } catch (error) {
+        console.error("Error fetching last invoice number:", error);
+      }
+    };
 
     fetchCustomers();
     fetchInventoryItems();
+    lastInvoiceNumber();
   }, []);
 
   const handleAddItem = () => {
@@ -117,9 +129,15 @@ const NewinvoiceLayout = () => {
   const handleSaveInvoice = async () => {
     const invoiceData = {
       customerId: buyerInfo.customerId,
-      buyerInfo,
-      products:lineItems,
-      invoiceMeta,
+      invoiceNumber: invoiceMeta.invoiceNo,
+      invoiceDate: invoiceMeta.invoiceDate,
+      paymentStatus: "Pending",
+      placeOfSupply: invoiceMeta.placeOfSupply,
+      gstType: invoiceMeta.gstType,
+      products: lineItems.map((item) => ({
+        productId: item.productId,
+        quantity: item.quantity,
+      })),
     };
 
     try {
@@ -131,7 +149,6 @@ const NewinvoiceLayout = () => {
       alert("Failed to save the invoice. Please try again.");
     }
   };
-
   return (
     <div className="newinvoice-layout">
       <div className="sticky-header">
@@ -236,7 +253,7 @@ const NewinvoiceLayout = () => {
         <tbody>
           {lineItems.map((item, index) => (
             <tr key={index}>
-              <td>
+              <td className="product-field">
                 <select
                   value={item.productId}
                   onChange={(e) =>
@@ -251,7 +268,7 @@ const NewinvoiceLayout = () => {
                   ))}
                 </select>
               </td>
-              <td>
+              <td className="description-field">
                 <input
                   placeholder="Description"
                   value={item.description}
@@ -272,6 +289,7 @@ const NewinvoiceLayout = () => {
                   type="number"
                   placeholder="Qty"
                   value={item.quantity}
+                  min='1'
                   onChange={(e) =>
                     handleItemChange(index, "quantity", e.target.value)
                   }

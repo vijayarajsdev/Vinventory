@@ -27,6 +27,17 @@
   padding: 8px;
   width: 300px;
 }
+.product-field {
+  margin: 5px;
+  padding: 8px;
+  width: 150px;
+}
+.description-field {
+  margin: 5px;
+  padding: 8px;
+  width: 150px;
+}
+
 .description {
   width: 300px;
 }
@@ -156,17 +167,17 @@
 }
 .quantity-field,
 .unit-field {
-  width: 50px;
+  width: 40px;
 }
 .rate-field,
 .hsn-field {
-  width: 7px;
+  width: 80px;
 }
 .price-field {
-  width: 120px;
+  width: 100px;
 }
 .total-field {
-  width: 150px;
+  width: 100px;
 }
 .action-field {
   width: 10px;

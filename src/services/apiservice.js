@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const apiurl = "http://localhost:5000";
+const apiurl = "https://viinventorybackend.onrender.com";
+//const apiurl = "http://localhost:5000";
 
 const apiService = axios.create({
   baseURL: apiurl,

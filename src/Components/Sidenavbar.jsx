@@ -14,9 +14,9 @@ const Sidenavbar = () => {
       <Link className="nav-link" to="/invoices">
         Invoices
       </Link>
-      <Link className="nav-link" to="/quotations">
+      {/* <Link className="nav-link" to="/quotations">
         Quotations
-      </Link>
+      </Link> */}
       <Link className="nav-link" to="/inventory">
         Inventory
       </Link>
