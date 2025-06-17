@@ -90,6 +90,7 @@ const Inventory = () => {
                   fontSize: "0.8rem",
                   padding: "5px 10px",
                   marginTop: "10px",
+                  marginLeft: "10px",
                 }}
                 onClick={() => deleteItem(item._id)}>
                 Delete
