@@ -80,7 +80,7 @@ const Inventory = () => {
                   padding: "5px 10px",
                   marginTop: "10px",
                 }}
-                onClick={() => navigate(`/inventory/edit/${item._id}`)}>
+                onClick={() => navigate(`/newinventory/${item._id}`)}>
                 Edit
               </Button>
               <Button
