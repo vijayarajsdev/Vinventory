@@ -41,7 +41,7 @@ const Invoices = () => {
           variant="contained"
           color="primary"
           style={{ fontSize: "0.8rem", padding: "5px 10px" }}
-          onClick={() => navigate("/newinvoice")}>
+          >
           Add Invoice
         </Button>
       </div>

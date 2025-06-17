@@ -5,7 +5,7 @@ import { getService, postService, putService } from "../services/apiservice";
 
 const AddInventory = () => {
   const navigate = useNavigate();
-  const { id } = useParams(); // Get the item ID from the URL
+  const { id } = useParams(); 
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -14,7 +14,6 @@ const AddInventory = () => {
 
   useEffect(() => {
     if (id) {
-      // Fetch the item details if an ID is present
       const fetchItem = async () => {
         try {
           const response = await getService(`/inventory/${id}`);
@@ -36,13 +35,11 @@ const AddInventory = () => {
     e.preventDefault();
     try {
       if (id) {
-        // Update the item if an ID is present
         await putService(`/inventory/update/${id}`, formData);
       } else {
-        // Add a new item if no ID is present
         await postService("/inventory/add", formData);
       }
-      navigate("/inventory"); // Redirect back to inventory list
+      navigate("/inventory"); 
     } catch (error) {
       console.error("Error saving inventory item:", error);
     }
@@ -50,7 +47,7 @@ const AddInventory = () => {
 
   return (
     <div>
-      <h2>{id ? "Edit Inventory Item" : "Add New Inventory Item"}</h2>
+      <h2>{id ? "Edit  Item" : "Add New Item"}</h2>
       <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", maxWidth: "500px",alignItems:"flex-start",marginLeft: "20px"}}>
         <TextField
           label="Name"

@@ -11,7 +11,6 @@ const apiService = axios.create({
   },
 });
 
-// GET Service
 const getService = async (url, config = {}) => {
   try {
     const response = await apiService.get(url, config);
@@ -22,7 +21,6 @@ const getService = async (url, config = {}) => {
   }
 };
 
-// POST Service (with request body)
 const postService = async (url, data = {}, config = {}) => {
   try {
     const response = await apiService.post(url, data, config);
@@ -33,7 +31,6 @@ const postService = async (url, data = {}, config = {}) => {
   }
 };
 
-// PUT Service (with request body)
 const putService = async (url, data = {}, config = {}) => {
   try {
     const response = await apiService.put(url, data, config);
@@ -44,7 +41,6 @@ const putService = async (url, data = {}, config = {}) => {
   }
 };
 
-// DELETE Service (with optional request body)
 const deleteService = async (url, config = {}) => {
   try {
     const response = await apiService.delete(url, config);

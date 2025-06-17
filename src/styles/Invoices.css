@@ -43,11 +43,11 @@
   }
   
   .status-label.paid {
-    color: #16a34a; /* Green */
+    color: #16a34a;
   }
   
   .status-label.unpaid {
-    color: #dc2626; /* Red */
+    color: #dc2626; 
   }
   .invoice-view-btn{
     font-size: 0.8rem;

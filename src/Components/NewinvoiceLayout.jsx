@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Box } from "@mui/material";
 import Pdflayout from "./Pdflayout";
 import "../styles/NewInvoiceLayout.css";
-import { getService, postService } from "../services/apiservice"; // Import postService for POST requests
+import { getService, postService } from "../services/apiservice"; 
 
 const NewinvoiceLayout = () => {
   const [showPreview, setShowPreview] = useState(false);
@@ -35,7 +35,7 @@ const NewinvoiceLayout = () => {
     invoiceNo: "",
     invoiceDate: "",
     placeOfSupply: "",
-    gstType: "State", // or "Central"
+    gstType: "State", 
   });
 
   useEffect(() => {
@@ -154,7 +154,6 @@ const NewinvoiceLayout = () => {
       <div className="sticky-header">
         <h2>New Invoice</h2>
       </div>
-      {/* Buyer Info */}
       <div className="buyer-info">
         <h3>Buyer Information</h3>
         <div className="buyer-info-grid">
@@ -184,7 +183,6 @@ const NewinvoiceLayout = () => {
         </div>
       </div>
 
-      {/* Invoice Meta */}
       <div className="invoice-info">
         <h3>Invoice Details</h3>
         <div className="invoice-info-grid">

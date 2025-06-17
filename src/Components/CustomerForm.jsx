@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../styles/CustomerForm.css"; // Assuming you have a CSS file for styling
+import "../styles/CustomerForm.css"; 
 import { Button } from "@mui/material";
-import { AddCustomerService } from "../services/CustomerService"; // Import the API service
+import { AddCustomerService } from "../services/CustomerService"; 
 import { useNavigate } from "react-router-dom";
 
 const CustomerForm = () => {
@@ -23,8 +23,7 @@ const CustomerForm = () => {
   const navigate = useNavigate();
   const addCustomer = async () => {
     try {
-      const response = await AddCustomerService(customerData); // Call the API
-      console.log("Response from API:", response); // Log the response for debugging
+      const response = await AddCustomerService(customerData); 
       if (response.status === 201) {
         navigate("/customers");
       }
@@ -37,9 +36,8 @@ const CustomerForm = () => {
         city: "",
         zip: "",
         gst: "",
-      }); // Reset the form
+      }); 
     } catch (error) {
-      console.error("Error adding customer:", error);
       alert("Failed to add customer. Please try again.");
     }
   };

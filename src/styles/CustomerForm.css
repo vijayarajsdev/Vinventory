@@ -6,7 +6,7 @@
   display: grid;
   grid-template-columns: 20vw 30vw;
   grid-template-rows: 50px;
-  margin: 10px 50px;
+  margin: 10px 100px;
 }
 .h3-style-label {
   font-size: 20px;
@@ -28,10 +28,21 @@
   transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 .styled-input::placeholder {
-    color: #a0aec0; /* soft gray */
-  }
+    color: #a0aec0; 
   
   .styled-input:focus {
-    border-color: #4299e1; /* soft blue */
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3); /* blue glow */
+    border-color: #4299e1; 
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3); 
+  }
+  @media screen and (max-width: 768px) {
+    .customer-form-container {
+      grid-template-columns: 1fr; 
+      margin: 10px 20px; 
+    }
+    .h3-style-label {
+      font-size: 18px; 
+    .styled-input {
+      width: 70%; 
+      max-width: none; 
+    
   }

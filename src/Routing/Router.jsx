@@ -5,8 +5,6 @@ import Invoices from "../Components/Invoices";
 import Quotations from "../Components/Quotations";
 import Inventory from "../Components/Inventory";
 import Customers from "../Components/Customers";
-import Newinvoice from "../Components/Newinvoice";
-import NewinvoiceLayout from "../Components/NewinvoiceLayout";
 import CustomerForm from "../Components/CustomerForm";
 import NewInventoryItem from "../Components/NewInventoryItem";
 const router = createBrowserRouter([
@@ -20,7 +18,6 @@ const router = createBrowserRouter([
       },
       { path: "/customers", element: <Customers /> },
       { path: "/invoices", element: <Invoices /> },
-      { path: "/newinvoice", element: <NewinvoiceLayout /> },
       { path: "/newcustomer", element: <CustomerForm /> },
       { path: "/quotations", element: <Quotations /> },
       { path: "/inventory", element: <Inventory /> },

@@ -9,7 +9,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import "../styles/Invoices.css"; // Reusing the same styles for consistency
+import "../styles/Invoices.css";
 import { CustomerService } from "../services/CustomerService";
 
 const Customers = () => {
