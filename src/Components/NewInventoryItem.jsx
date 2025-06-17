@@ -51,14 +51,13 @@ const AddInventory = () => {
   return (
     <div>
       <h2>{id ? "Edit Inventory Item" : "Add New Inventory Item"}</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", maxWidth: "500px",alignItems:"flex-start",marginLeft: "20px"}}>
         <TextField
           label="Name"
           name="name"
           value={formData.name}
           onChange={handleChange}
           required
-          fullWidth
           margin="normal"
         />
         <TextField
@@ -68,7 +67,6 @@ const AddInventory = () => {
           value={formData.price}
           onChange={handleChange}
           required
-          fullWidth
           margin="normal"
         />
         <TextField
@@ -78,7 +76,6 @@ const AddInventory = () => {
           value={formData.count}
           onChange={handleChange}
           required
-          fullWidth
           margin="normal"
         />
         <Button
